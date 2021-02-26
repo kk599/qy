@@ -1,0 +1,37 @@
+name: Checkin
+
+on:
+    workflow_dispatch:
+    push:
+        branches:
+            - master
+    schedule:
+        - cron: '32 9,23 * * *'
+    watch:
+        types: 
+            - started
+
+env:
+    TZ: Asia/Shanghai
+    USERS: ${{secrets.USERS}}
+    domain0: ${{secrets.domain0}}
+    domain1: ${{secrets.domain1}}
+    gid: ${{secrets.gid}}
+
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout codes
+              uses: actions/checkout@v2
+            
+            - name: Install depends
+              run: |
+                sudo apt-get update
+                sudo apt-get -y install curl jq
+
+            - name: Request API
+              run: |
+                bash test.sh
