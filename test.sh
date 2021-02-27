@@ -24,7 +24,7 @@ if [ "${users_array}" ]; then
 	login_state=$(echo ${login} | jq -r '.scope')
         userid=$(echo ${login} | jq -r '.user_id')
 	echo -e ${login_state}
-	hour=$(date "+%H")
+	hour=$(date "+%-H")
 	echo -e ${hour}
 		if [ ${hour} -lt 12 ]; then
 			flag=0
