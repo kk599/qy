@@ -24,7 +24,15 @@ if [ "${users_array}" ]; then
 	login_state=$(echo ${login} | jq -r '.scope')
         userid=$(echo ${login} | jq -r '.user_id')
 	echo -e ${login_state}
-	checkin0=$(curl -s --location --request GET "${domain1}?onOffFlag=1&userId=${userid}&companyId=${gid}" --header "authorization: Bearer ${login_access_token}" --header 'user-agent: Mozilla/5.0 (Linux; Android 10; C106 Build/QQ3A.200805.001; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/87.0.4280.86 Mobile Safari/537.36mpm24_android' --header "comomorgid: ${gid}")	           
+	hour=$(date "+%H")
+	echo -e ${hour}
+		if [ ${hour} -lt 12 ]; then
+			flag=0
+		else
+			flag=1
+		fi
+	echo -e ${flag}
+	checkin0=$(curl -s --location --request GET "${domain1}?onOffFlag=${flag}&userId=${userid}&companyId=${gid}" --header "authorization: Bearer ${login_access_token}" --header 'user-agent: Mozilla/5.0 (Linux; Android 10; C106 Build/QQ3A.200805.001; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/87.0.4280.86 Mobile Safari/537.36mpm24_android' --header "comomorgid: ${gid}")	           
         check_in_status0=$(echo ${checkin0} | jq -r '.code')
         check_in_status1=$(echo ${checkin0} | jq -r '.message')
 	checkin_log_text="${check_in_status0}-${check_in_status1}"
