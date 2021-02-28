@@ -2,8 +2,6 @@
 
 PATH="/usr/local/bin:/usr/bin:/bin"
 ENV_PATH="$(dirname $0)/.env"
-IS_MACOS=$(uname | grep 'Darwin' | wc -l)
-TITLE="签到结果"
 COOKIE_PATH="./.1.cook"
 PUSH_TMP_PATH="./.2.tmp"
 log_text=""
@@ -48,6 +46,8 @@ if [ "${users_array}" ]; then
 	echo -e ${login_state}
 	get_gid=$(curl -s --location --request POST "${domain2}" --header 'user-agent: Mozilla/5.0 (Linux; Android 10; C106 Build/QQ3A.200805.001; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/87.0.4280.86 Mobile Safari/537.36mpm24_android' --header 'content-type: application/x-www-form-urlencoded' --header "authorization: Bearer ${login_access_token}")
 	gid=$(echo ${get_gid} | jq -r '.object[0].orgId')
+	get_gid_message=$(echo ${get_gid} | jq -r '.message')
+	echo -e ${get_gid_message}
 	hour=$(date "+%-H")
 	echo -e ${hour}
 	if [ ${hour} -lt 12 ]; then
