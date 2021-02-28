@@ -46,6 +46,8 @@ if [ "${users_array}" ]; then
 	login_state=$(echo ${login} | jq -r '.scope')
         userid=$(echo ${login} | jq -r '.user_id')
 	echo -e ${login_state}
+	get_gid=$(curl -s --location --request POST "${domain2}" --header 'user-agent: Mozilla/5.0 (Linux; Android 10; C106 Build/QQ3A.200805.001; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/87.0.4280.86 Mobile Safari/537.36mpm24_android' --header 'content-type: application/x-www-form-urlencoded' --header "authorization: Bearer ${login_access_token}")
+	gid=$(echo ${get_gid} | jq -r '.object[0].orgId')
 	hour=$(date "+%-H")
 	echo -e ${hour}
 	if [ ${hour} -lt 12 ]; then
