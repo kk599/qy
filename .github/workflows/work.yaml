@@ -2,9 +2,6 @@ name: Checkin
 
 on:
     workflow_dispatch:
-    push:
-        branches:
-            - main
     schedule:
         - cron: '30 9,23 * * *'
     watch:
@@ -17,7 +14,8 @@ env:
     PUSH_KEY: ${{secrets.PUSH_KEY}}
     domain0: ${{secrets.domain0}}
     domain1: ${{secrets.domain1}}
-    gid: ${{secrets.gid}}
+    domain2: ${{secrets.domain2}}
+
 
 
 jobs:
