@@ -3,9 +3,10 @@
 PATH="/usr/local/bin:/usr/bin:/bin"
 ENV_PATH="$(dirname $0)/.env"
 IS_MACOS=$(uname | grep 'Darwin' | wc -l)
-TITLE="12"
+TITLE="签到结果"
 COOKIE_PATH="./.1.cook"
 PUSH_TMP_PATH="./.2.tmp"
+log_text=""
 
 if [ -f ${ENV_PATH} ]; then
     source ${ENV_PATH}
@@ -58,7 +59,7 @@ if [ "${users_array}" ]; then
         check_in_status1=$(echo ${checkin0} | jq -r '.message')
 	checkin_log_text="${check_in_status0}-${check_in_status1}"
         echo -e ${checkin_log_text}
-	log_text="${log_text}$\n\n{checkin_log_text}"
+	log_text="${log_text}\n\n${checkin_log_text}"
         user_count=$(expr ${user_count} + 1)
 	rnd=$(rand 50 90)
 	echo -e ${rnd}
