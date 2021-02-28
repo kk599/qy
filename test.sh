@@ -18,6 +18,20 @@ function rand(){
     echo $(($num%$max+$min))   
 }
 
+function send_message() {
+    # Server 酱通知
+    if [ "${PUSH_KEY}" ]; then
+        echo -e "text=${TITLE}&desp=${log_text}" >${PUSH_TMP_PATH}
+        push=$(curl -k -s --data-binary @${PUSH_TMP_PATH} "https://sc.ftqq.com/${PUSH_KEY}.send")
+        push_code=$(echo ${push} | jq -r ".errno" 2>&1)
+        if [ ${push_code} -eq 0 ]; then
+            echo -e "【Server 酱推送结果】: 成功\n"
+        else
+            echo -e "【Server 酱推送结果】: 失败\n"
+        fi
+    fi
+}
+
 users_array=($(echo ${USERS} | tr ';' ' '))
 
 if [ "${users_array}" ]; then
@@ -44,11 +58,14 @@ if [ "${users_array}" ]; then
         check_in_status1=$(echo ${checkin0} | jq -r '.message')
 	checkin_log_text="${check_in_status0}-${check_in_status1}"
         echo -e ${checkin_log_text}
+	log_text="${log_text}$\n\n{checkin_log_text}"
         user_count=$(expr ${user_count} + 1)
 	rnd=$(rand 50 90)
 	echo -e ${rnd}
 	sleep ${rnd}
-    done       
+    done
+    echo -e ${log_text}
+    send_message 
     fi
     rm -rf ${COOKIE_PATH}
     rm -rf ${PUSH_TMP_PATH}
