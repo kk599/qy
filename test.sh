@@ -36,7 +36,7 @@ function send_message() {
 users_array=($(echo ${USERS} | tr ';' ' '))
 
 if [ "${users_array}" ]; then
-    user_count=1
+    user_count=0
     for user in ${users_array[@]}; do
         un=$(echo ${user} | awk -F'----' '{print $1}')
         pw=$(echo ${user} | awk -F'----' '{print $2}')
