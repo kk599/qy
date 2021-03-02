@@ -34,7 +34,7 @@ function send_message() {
 function WxPusher_send_message() {
     # WxPusher通知
     if [ "${PUSH_KEY}" ]; then
-    	text = "$(date '+%Y-%m-%d %H:%M:%S')\n${log_text}"
+    	text="$(date '+%Y-%m-%d %H:%M:%S')\n${log_text}"
         push=$(curl -s --location --request GET "http://wxpusher.zjiecode.com/api/send/message/?appToken=${appToken}&content=${text}&uid=${uid}")
         push_code=$(echo ${push} | jq -r ".code" 2>&1)
         if [ ${push_code} -eq 1000 ]; then
