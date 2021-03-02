@@ -31,18 +31,19 @@ function send_message() {
     fi
 }
 
-function WxPusher_send_message() {
+unction WxPusher_send_message() {
     # WxPusher通知
-    if [ "${PUSH_KEY}" ]; then
+    if [ "${appToken}" ]; then
     	time=$(date "+%Y-%m-%d %H:%M:%S")
-    	text="${time}\n${log_text}"
-        push=$(curl -s --location --request GET "http://wxpusher.zjiecode.com/api/send/message/?appToken=${appToken}&content=${text}&uid=${uid}")
+    	text="${time}${log_text}"
+        push=$(curl -s -G --location --data-urlencode "content=${text}" --request GET "http://wxpusher.zjiecode.com/api/send/message?appToken=${appToken}&uid=${uid}")
         push_code=$(echo ${push} | jq -r ".code" 2>&1)
-        if [ ${push_code} -eq 1000 ]; then
+	if [ ${push_code} -eq 1000 ]; then
             echo -e "【WxPusher推送结果】: 成功\n"
         else
             echo -e "【WxPusher推送结果】: 失败\n"
         fi
+        
     fi
 }
 
