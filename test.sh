@@ -31,7 +31,7 @@ function send_message() {
     fi
 }
 
-unction WxPusher_send_message() {
+function WxPusher_send_message() {
     # WxPusher通知
     if [ "${appToken}" ]; then
     	time=$(date "+%Y-%m-%d %H:%M:%S")
